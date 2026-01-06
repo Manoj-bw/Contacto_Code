@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Salesforce Automation Suite" parallel="false">
+
+    <listeners>
+        <listener class-name="listeners.ExtentReportListener"/>
+    </listeners>
+
+    <test name="Send Email Functional Tests">
+
+        <classes>
+            <class name="tests.ChooseFileTest"/>
+            <class name="tests.DeleteContentTest"/>
+            <class name="tests.InsertTemplateTest"/>
+            <class name="tests.MergeFieldTest"/>
+            <class name="tests.PreviewTest"/>
+            <class name="tests.SendEmailOnlyTest"/>
+        </classes>
+
+    </test>
+
+</suite>
