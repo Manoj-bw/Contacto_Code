@@ -5,14 +5,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import Selenium.maven.Selenium.maven.demo.Screenshot;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.LoginPage;
 
 public class BaseTest {
 
-    protected WebDriver driver;
+    protected static WebDriver driver;
 
     @BeforeMethod
     public void setup() throws InterruptedException {
@@ -35,12 +37,26 @@ public class BaseTest {
     }
     
     
-
     @AfterMethod
-    public void teardown() {
+    public void tearDown(ITestResult result) {
+        // Capture screenshot if test fails
+        if (result.getStatus() == ITestResult.FAILURE) {
+            Screenshot.takeScreenshot(driver, result.getName());
+        }
+
         if (driver != null) {
-            driver.quit();
+        //    driver.quit();
         }
     }
+ // ✅ This will be used by ExtentReportListener
+    
+    public static WebDriver getDriver1() {
+        return driver;
+    
+    }
+
+	public static WebDriver getDriver() {
+		return null;
+	}
 }
 
