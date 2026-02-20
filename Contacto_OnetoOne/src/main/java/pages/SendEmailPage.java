@@ -4,6 +4,9 @@ import java.time.Duration;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+
 
 public class SendEmailPage {
 WebDriver driver;
@@ -23,8 +26,8 @@ private By body = By.xpath("//textarea[contains(@class,'slds-textarea')]");
 private By send = By.xpath("//button[@name='send'] | //button[normalize-space()='Send']");
 
 private By mergeFieldBtn = By.xpath("//button[@title='Insert merge field']");
-private By insertMergeRadio = By.xpath("(//input[@type='radio'])[1]");
-private By insertMergeBtn = By.xpath("//button[@title='Insert' and normalize-space()='Insert']");
+private By insertMergeBtn = By.xpath("//button[@title='Insert merge field'and normalize-space()='{}']");// chnage xpath and name changed radio to btn
+//private By insertMergeBtn = By.xpath("//button[@title='Insert' and normalize-space()='Insert']");
 
 private By templateBtn = By.xpath("//button[@title='Insert, create, or update template']");
 private By previewBtn = By.xpath("//button[@title='Preview email']");
@@ -41,7 +44,7 @@ public void enterSubjectAndBody(String sub, String msg) {
     bodyField.sendKeys(msg); 
 
 }
-// need to write new code for updated functionality.
+// This code is for radio button functionality 
 
 /*public void insertMergeField() throws InterruptedException {
     js.executeScript("arguments[0].click();", wait.until(ExpectedConditions.elementToBeClickable(mergeFieldBtn)));
@@ -54,6 +57,34 @@ public void enterSubjectAndBody(String sub, String msg) {
     Thread.sleep(3000);
 }
 */
+// new code for updated functionality --(Manoj)
+
+public void insertMergeField() {
+
+    
+    safeClick(mergeFieldBtn);
+    safeClick(By.xpath("//div[@data-label='Account >']"));
+    safeClick(By.xpath("//div[@data-label='Account Description']"));
+    safeClick(By.xpath("//button[@title='Copy']"));
+    String copiedText = "";
+    try {
+        copiedText = (String) Toolkit.getDefaultToolkit()
+                .getSystemClipboard().getData(DataFlavor.stringFlavor);
+    } catch (Exception e) {
+        throw new RuntimeException("Failed to read clipboard", e);
+    }
+
+    System.out.println("Copied merge field = " + copiedText);
+
+    safeClick(By.xpath("//button[@title='Cancel' or normalize-space()='Cancel']"));
+
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(
+            By.cssSelector("c-generate-merge-fields")));
+    WebElement bodyField = wait.until(ExpectedConditions.elementToBeClickable(body));
+    bodyField.click();
+    bodyField.sendKeys(copiedText);
+}
+
 public void insertTemplate() throws InterruptedException {
     js.executeScript("arguments[0].click();", wait.until(ExpectedConditions.elementToBeClickable(templateBtn)));
     Thread.sleep(3000);
@@ -111,4 +142,15 @@ public void sendEmail() throws InterruptedException {
 	
     wait.until(ExpectedConditions.elementToBeClickable(send)).click();
 }
+
+public void waitForLightningSpinnerToDisappear() {
+    By spinner = By.cssSelector(".slds-spinner_container");
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(spinner));
+}
+private void safeClick(By locator) {
+    waitForLightningSpinnerToDisappear();
+    WebElement el = wait.until(ExpectedConditions.elementToBeClickable(locator));
+    js.executeScript("arguments[0].click();", el);
+}
+
 }

@@ -14,10 +14,10 @@ public class ContactPage {
         this.wait = new WebDriverWait(driver, 40);  
         this.js = (JavascriptExecutor) driver;
     }
-    private By contactsTab = By.xpath("//a[@title='Contacts']");
+    private By contactsTab = By.xpath("//a[@title='Opportunity']");
     private By contactName = By.xpath("//a[@title='Manoj']");
    // this line commented due to old package
-    //private By sendEmailBtn = By.xpath("//a[text()='Send Email']");
+    private By sendEmailBtn = By.xpath("//a[text()='Send Email']");
     
 
     public void openSendEmail() {

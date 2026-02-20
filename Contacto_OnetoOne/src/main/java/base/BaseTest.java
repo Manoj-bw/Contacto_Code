@@ -15,6 +15,9 @@ import pages.LoginPage;
 public class BaseTest {
 
     protected static WebDriver driver;
+    
+    public static String OBJECT_TAB_NAME = "Contacts";
+    public static String OBJECT_RECORD_NAME = "Manoj";
 
     @BeforeMethod
     public void setup() throws InterruptedException {
@@ -31,7 +34,7 @@ public class BaseTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(
         		"shivapawarsp55661@agentforce.com",
-                "Shivraj@44"
+                "Shivraj@45"
         );
         
     }
@@ -50,13 +53,11 @@ public class BaseTest {
     }
  // ✅ This will be used by ExtentReportListener
     
-    public static WebDriver getDriver1() {
-        return driver;
-    
-    }
+
 
 	public static WebDriver getDriver() {
 		return null;
 	}
 }
+
 

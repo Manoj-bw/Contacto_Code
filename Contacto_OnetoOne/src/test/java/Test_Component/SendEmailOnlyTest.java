@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import base.BaseTest;
 import pages.ContactPage;
 import pages.LoginPage;
+import pages.SObjectPage;
 import pages.SendEmailPage;
 
 public class SendEmailOnlyTest extends BaseTest {
@@ -17,7 +18,9 @@ public class SendEmailOnlyTest extends BaseTest {
         new LoginPage(driver)
                 .login("arun.adigopula98447@agentforce.com", "Salesforce@123");
 
-        new ContactPage(driver).openSendEmail();
+       // new ContactPage(driver).openSendEmail();
+        new SObjectPage(driver, OBJECT_TAB_NAME, OBJECT_RECORD_NAME).openSendEmail();
+
 
         String subject = "Meeting Follow-Up: Next Steps";
         String body =
